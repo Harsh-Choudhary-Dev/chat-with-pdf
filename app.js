@@ -3,16 +3,17 @@ const require = createRequire(import.meta.url);
 global.require = require;
 const multer = require('multer');
 const fs = require('fs');
+const path = require('path')
 import getResponse from "./googleResponses.js"
 const express = require('express');
 const pdfParse = require('pdf-parse');
 const app = express();
 import getVectorStores from "./googleAI.js";
 const port = 3000;
-app.use(express.static("public"))
 
-app.get('/home', async(req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+const __dirname = path.resolve();
+app.get('/', async(req, res) => {
+  res.sendFile(path.resolve('public\\index.html'));
 });
 
 
