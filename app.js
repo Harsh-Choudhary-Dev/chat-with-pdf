@@ -10,10 +10,10 @@ const pdfParse = require('pdf-parse');
 const app = express();
 import getVectorStores from "./googleAI.js";
 const port = 3000;
-
 const __dirname = path.resolve();
-app.get('/', function(req, res) {
-  res.sendFile('public/index.html', {root: __dirname })
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (req, res) => {
+  res.sendFile('index.html'); // Serve the index.html from the public directory
 });
 
 
