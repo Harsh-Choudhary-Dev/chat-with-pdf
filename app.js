@@ -8,7 +8,7 @@ const express = require('express');
 const pdfParse = require('pdf-parse');
 const app = express();
 import getVectorStores from "./googleAI.js";
-const port = process.env.PORT;
+const port = 3000;
 app.use(express.static("public"))
 const storage = multer.memoryStorage();
 const upload = multer({ dest: "uploads/" }); // Specify a directory for temporary storage
