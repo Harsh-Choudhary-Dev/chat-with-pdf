@@ -11,9 +11,9 @@ const app = express();
 import getVectorStores from "./googleAI.js";
 const port = 3000;
 
-
-app.get('/', async(req, res) => {
-  res.sendFile(path.resolve('public\\index.html'));
+const __dirname = path.resolve();
+app.get('/', function(req, res) {
+  res.sendFile('public/index.html', {root: __dirname })
 });
 
 
