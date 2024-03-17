@@ -10,7 +10,12 @@ const app = express();
 import getVectorStores from "./googleAI.js";
 const port = 3000;
 app.use(express.static("public"))
-const storage = multer.memoryStorage();
+
+app.get('/', async(req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+
 const upload = multer({ dest: "uploads/" }); // Specify a directory for temporary storage
 let vectortore = null
 app.post("/upload", upload.single("pdfFile"),async (req, res) => {
