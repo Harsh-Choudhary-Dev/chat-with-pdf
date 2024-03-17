@@ -13,7 +13,7 @@ const port = 3000;
 
 const __dirname = path.resolve();
 app.get('/', async(req, res) => {
-  res.sendFile(path.resolve('public\\index.html'));
+  res.send('Hello World!')
 });
 
 
