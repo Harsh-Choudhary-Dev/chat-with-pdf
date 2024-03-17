@@ -11,7 +11,7 @@ import getVectorStores from "./googleAI.js";
 const port = 3000;
 app.use(express.static("public"))
 
-app.get('/', async(req, res) => {
+app.get('/home', async(req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
