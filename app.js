@@ -9,7 +9,7 @@ const express = require('express');
 const pdfParse = require('pdf-parse');
 const app = express();
 import getVectorStores from "./googleAI.js";
-const port = 3000;
+const port = 80;
 
 const __dirname = path.resolve();
 app.get('/', async(req, res) => {
