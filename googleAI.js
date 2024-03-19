@@ -2,10 +2,7 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 global.require = require;
 import { HNSWLib } from "@langchain/community/vectorstores/hnswlib";
-import { FaissStore } from "@langchain/community/vectorstores/faiss";
-import { GooglePaLMEmbeddings } from "@langchain/community/embeddings/googlepalm";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { CharacterTextSplitter } from "langchain/text_splitter";
 import { HuggingFaceInferenceEmbeddings } from "@langchain/community/embeddings/hf";
 
 
