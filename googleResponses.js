@@ -8,8 +8,8 @@ import { RetrievalQAChain } from "langchain/chains";
 
 
 async function getResponse(vectorStoreRetriever,question){
-  console.log(question)
-  console.log(vectorStoreRetriever)
+  // console.log(question)
+  // console.log(vectorStoreRetriever)
   const model = new GooglePaLM({apiKey:  process.env.GOOGLE_PALM_API_KEY})
 const chain = RetrievalQAChain.fromLLM(model, vectorStoreRetriever);
 const answer = await chain.call({
@@ -18,7 +18,7 @@ const answer = await chain.call({
 
 // Search for the most similar document
 // const result = await vectorStore.similaritySearch("Concepts in mental health", 1);
-console.log(answer.text);
+// console.log(answer.text);
 return answer.text
 }
 

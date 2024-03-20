@@ -7,9 +7,57 @@
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/three-dots.min.css">
 </head>
 <style>
+
+    /* HTML: */
+.three-dot-loader {
+    height: 0.5rem;
+    aspect-ratio: 4;
+    display: grid;
+    
+  }
+  .three-dot-loader:before,
+  .three-dot-loader:after {
+    content: "";
+    grid-area: 1/1;
+    --_g: no-repeat radial-gradient(farthest-side,#c628c6 94%,#9c0a25);
+    background:
+      var(--_g) left,
+      var(--_g) right;
+    background-size: 25% 100%;
+    animation: l34 1s infinite; 
+    transform: translate(var(--d,0)) rotate(0);
+  }
+  .three-dot-loader:after {
+    --d: 37.5%;
+    animation-delay: .5s;
+  }
+  @keyframes l34 {
+    50%,100% {transform: translate(var(--d,0)) rotate(.5turn)}
+  }
+
+/*-----------------------------------------------------------------------------------------*/
+/*loader
+----------------------------------*/
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+/*-----------------------------------------------------------------------------------------*/
+
+
     body {
         background-color: #2a2c2e;
         overflow-y: hidden;
@@ -63,16 +111,17 @@
 
     .query-box {
         position: absolute;
-        bottom: 2%;
-        
+        bottom: 1%;
+        margin-top: 2vh;
+
     }
 
     .query-list-box {
         position: absolute;
         bottom: 15%;
         overflow-x: auto;
-        width: 42vh;
-        height: 72vh;
+        width: 85%;
+        height: 65vh;
     }
 
     .into-heading {
@@ -102,11 +151,11 @@
     }
 
     input {
-        height: 12vh;
+        height: 7vh;
         border-radius: 2vh;
         background-color: #2a2c2e;
         color: aliceblue;
-        width: 42vh;
+        width: 40vh;
         border-color: #61045f;
         outline: none;
     }
@@ -127,13 +176,39 @@
         background-color: rgb(193, 56, 186);
         border-radius: 1.5vh;
     }
+    .query-list-box::-webkit-scrollbar {
+        width: .1rem;
+    }
+
+    .query-list-box::-webkit-scrollbar-track {
+        background: rgb(3, 3, 3);
+    }
+
+    .query-list-box::-webkit-scrollbar-thumb {
+        background-color: rgb(193, 56, 186);
+        border-radius: 1.5vh;
+    }
 
     .btn-close {
         background-color: rgb(193, 56, 186);
     }
+
+    #fileFrame {
+        width: 75%;
+        height: 100vh;
+    }
+    .text-box{
+        background-color: #aa076b;
+       /* background-color: #61045f;*/
+        border-radius: 2vh;
+        padding: 2vh;
+        height: fit-content;
+  
+    }
 </style>
 
-<body >
+<body>
+    <div class="loader"></div>
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
         <div class="offcanvas-header">
@@ -143,11 +218,14 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
+            <button class="btn" id="summerizer">Summerize this pdf</button>
             <div class="query-list-box text-start"></div>
             <div class="d-flex flex-column mb-3">
                 <div class="p-2 query-box">
                     <input type="text" class="query-input-box" />
                     <button class="btn send-query">Enter</button>
+                    <i style="color: #8e8b8e;">Press Enter</i>
+                    <div class="three-dot-loader"></div> 
                 </div>
                 <!-- <div class="p-2">Flex item 2</div> -->
                 <!-- <div class="p-2">Flex item 3</div> -->
@@ -157,6 +235,7 @@
 
     <div class="d-flex flex-row mb-3 justify-content-between main-container">
         <div class="p-2 pdf-container">
+
             <div class="p-2">
                 <div class="into-heading">
                     <h1>It's not just reading anymore,
@@ -169,7 +248,7 @@
             </div>
         </div>
         <div class="p-2 chat-box-bot">
-              <button class="btn pdf-analysis" type="button" data-bs-toggle="offcanvas"
+            <button class="btn pdf-analysis" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
                 Start Chatting
             </button>
@@ -181,10 +260,10 @@
         </div>
         <!-- <div class="p-2">Flex item 3</div> -->
     </div>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"
         integrity="sha512-Z8CqofpIcnJN80feS2uccz+pXWgZzeKxDsDNMD/dJ6997/LSRY+W4NmEt9acwR+Gt9OHN0kkI1CTianCwoqcjQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -194,50 +273,120 @@
         const chat_pdf = document.querySelector(".pdf-analysis")
         const upload_docs = document.querySelector(".upload-new-docs")
         const query_box = document.querySelector(".query-list-box")
+        const fileInput = document.querySelector('#file-to-upload');
+        const loader = document.querySelector(".loader")
+        const summarize_btn = document.querySelector("#summerizer")
+        const query = document.querySelector(".query-input-box")
+        const three_dot_loader = document.querySelector(".three-dot-loader")
+        loader.style.display = "none";
+        three_dot_loader.style.opacity = "0%";
+
         document.querySelector("#file-to-upload").style.display = "none";
         chat_pdf.style.display = "none";
         upload_docs.style.display = "none";
 
-      function apend_query(text){
-        let user_query_list = document.createElement("p")
-        user_query_list.innerText = text
-        query_box.append(user_query_list)
-      }
+
+        query.addEventListener("keypress", function(event) {
+            //console.log(event)
+            if (event.key === "Enter") {
+                send_query.click()  
+            }
+        })
+
+        function apend_query(text) {
+            let user_query_list = document.createElement("p")
+            user_query_list.classList.add("text-box")
+            user_query_list.innerText = text
+            query_box.append(user_query_list)
+        }
 
 
         send_query.addEventListener("click", () => {
-            let query = document.querySelector(".query-input-box")
+            three_dot_loader.style.opacity = "100%"
             if (query.value) {
                 console.log(query.value)
                 apend_query(query.value)
                 $.ajax({
-                    url:"/query",
-                    method:"GET",
-                    data:{q:query.value},
-                    dataType : "JSON",
-                    success:function(data){
+                    url: "/query",
+                    method: "GET",
+                    data: { q: query.value },
+                    dataType: "JSON",
+                    success: function (data) {
                         console.log(data)
+                        three_dot_loader.style.opacity = "0%"
                         apend_query(data["response"])
                     }
                 })
-            query.value = ""
-        }
-    })
+                query.value = ""
+                query_box.scrollTop = query_box.scrollHeight;
+            }
+        })
         document.querySelector(".upload-docs").addEventListener("click", () => {
             document.querySelector("#file-to-upload").click()
-            uploadFile()
-            /*  heading.setAttribute("style","overflow:auto;height:90px;width:500px");*/
-            heading.classList.add("text-center")
-            heading.innerHTML = ``
-            chat_pdf.style.display = "block"
-            upload_docs.style.display = "block"
-
         })
         upload_docs.addEventListener("click", () => {
             if (confirm("You will lose the document changes you are working with")) {
                 location.reload()
             }
         })
+
+        summarize_btn.addEventListener("click",()=>{
+            query.value = "summerize this pdf"
+            send_query.click()
+        })
+
+
+
+        function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('pdfFile', file);
+           // console.log(formData)
+         // alert("data not received")
+           loader.style.display = "block";
+            fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                   
+                    if(data){
+                       // alert("data received")
+                        loader.style.display = "none"
+                        chat_pdf.style.display = "block"
+                        upload_docs.style.display = "block"
+                    }
+                })
+                .catch(error => {
+                    console.error('Error uploading file:', error);
+                });
+        }
+
+
+
+        function displayFile() {
+            
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+            uploadFile(file)
+            heading.classList.add("text-center")
+            heading.innerHTML = ` <iframe id="fileFrame" frameborder="0"></iframe>`
+            const fileFrame = document.querySelector('#fileFrame');
+                const reader = new FileReader();
+                //chat_pdf.style.display = "block"
+                //upload_docs.style.display = "block"
+                reader.onload = function (event) {
+                    fileFrame.src = event.target.result;
+
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileFrame.src = '';
+            }
+        }
+
+        document.querySelector('#file-to-upload').addEventListener('change', displayFile);
+
 
     </script>
 
