@@ -31,15 +31,8 @@ const vectorStore = await HNSWLib.fromDocuments(splittedDocs, embeddings);
 // console.log(vectorStore)
 
 const vectorStoreRetriever = vectorStore.asRetriever();
-const result = await vectorStore.similaritySearch("what is node",7);
-console.log(result)
-console.log(result[0].pageContent)
+// const result = await vectorStore.similaritySearch("what is node",7);
 return vectorStoreRetriever
 }
-
-
-
-
-
 
 export default getVectorStores

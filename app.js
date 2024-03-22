@@ -9,10 +9,12 @@ const express = require('express');
 const pdfParse = require('pdf-parse');
 const app = express();
 import getVectorStores from "./googleAI.js";
+import getSummary from "./summarization.js"
+let  parsedText = null
 const port = 80;
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'public')));
-app.get('/home', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile('index.html'); // Serve the index.html from the public directory
 });
 
@@ -21,27 +23,35 @@ const upload = multer({ dest: "uploads/" }); // Specify a directory for temporar
 let vectortore = null
 app.post("/upload", upload.single("pdfFile"),async (req, res) => {
   const uploadedFile = req.file; // Get the uploaded file from the request object
+  // console.log(uploadedFile)
   if (uploadedFile) {
     console.log("File uploaded:", uploadedFile.filename);
     const dataBuffer = await fs.promises.readFile(uploadedFile.path); // Read file using fs.promises
-    const parsedText = await pdfParse(dataBuffer);
-    console.log(parsedText.text)
+     parsedText = await pdfParse(dataBuffer);
+    // console.log(parsedText.text)
       getVectorStores(parsedText.text).then(vectorStore=>{
         vectortore = vectorStore
+        console.log("vectore store created")
+        res.json({data:"vector-created"})
+       
      })
   } else {
     console.error("No file uploaded!");
   }
-
-  res.json({ message: "File upload received!" }); // Send a response to the client
+  // res.json({data:"file-uploaded"})
+ ; // Send a response to the client
 });
 
       
 app.get("/query", (req, res) => {
   let q = req.query["q"];
-  if (vectortore != null) {
+  if(q === "summerize this pdf"){
+    getSummary(parsedText.text).then(result =>{res.json({response:result})})
+    
+  }
+  else if (vectortore != null) {
     getResponse(vectortore, q).then((result) => {
-      console.log(result);
+      // console.log(result);
       res.json({response:result})
     });
   }
