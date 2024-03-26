@@ -11,7 +11,7 @@ const app = express();
 import getVectorStores from "./googleAI.js";
 import getSummary from "./summarization.js"
 let  parsedText = null
-const port = 80;
+const port = 3000;
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
