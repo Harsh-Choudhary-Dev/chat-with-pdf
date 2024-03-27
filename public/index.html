@@ -233,9 +233,9 @@
         </div>
     </div>
 
+    <!-- <h1>Unable to load pdf</h1> -->
     <div class="d-flex flex-row mb-3 justify-content-between main-container">
         <div class="p-2 pdf-container">
-
             <div class="p-2">
                 <div class="into-heading">
                     <h1>It's not just reading anymore,
@@ -370,13 +370,13 @@
                 const file = fileInput.files[0];
             uploadFile(file)
             heading.classList.add("text-center")
-            heading.innerHTML = ` <iframe id="fileFrame" frameborder="0"></iframe>`
+            heading.innerHTML = ` <object id="fileFrame" type="application/pdf" ></object>`
             const fileFrame = document.querySelector('#fileFrame');
                 const reader = new FileReader();
                 //chat_pdf.style.display = "block"
                 //upload_docs.style.display = "block"
                 reader.onload = function (event) {
-                    fileFrame.src = event.target.result;
+                    fileFrame.data = event.target.result;
 
                 };
                 reader.readAsDataURL(file);

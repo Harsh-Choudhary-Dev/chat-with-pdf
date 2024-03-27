@@ -1,0 +1,1 @@
+import { fromPath } from 'pdf2pic';

@@ -19,22 +19,53 @@ app.get('/', (req, res) => {
 });
 
 
+const axios = require('axios');
+
+async function callExternalApi(url, method = 'GET') {
+  try {
+    const response = await axios({
+      method,
+      url
+    });
+
+    return response.data;
+  } catch (error) {
+    // console.error('Error calling API:', error);
+    throw error; // Re-throw for potential handling in calling code
+  }
+}
+
+
 const upload = multer({ dest: "uploads/" }); // Specify a directory for temporary storage
 let vectortore = null
 app.post("/upload", upload.single("pdfFile"),async (req, res) => {
   const uploadedFile = req.file; // Get the uploaded file from the request object
-  // console.log(uploadedFile)
+  console.log( typeof  uploadedFile)
   if (uploadedFile) {
     console.log("File uploaded:", uploadedFile.filename);
     const dataBuffer = await fs.promises.readFile(uploadedFile.path); // Read file using fs.promises
+    console.log(typeof dataBuffer)
      parsedText = await pdfParse(dataBuffer);
-    // console.log(parsedText.text)
-      getVectorStores(parsedText.text).then(vectorStore=>{
-        vectortore = vectorStore
-        console.log("vectore store created")
+
+     console.log(parsedText.text)
+     console.log(parsedText.text.trim().length)
+    if(parsedText.text.trim().length === 0){
+      let pdfPath = (uploadedFile.path).replace("\\","-")
+      console.log("text extracted with ocr")
+       callExternalApi(`http://127.0.0.1:3000/pdf_name/${pdfPath}`).then(res => {
+        try {
+          const data = fs.readFileSync("extractedText\\"+uploadedFile.filename+".txt", 'utf8');
+          console.log(data);
+        } catch (err) {
+          console.error(err);
+        }
+       })
+      
+    }
+
         res.json({data:"vector-created"})
        
-     })
+    //  })
   } else {
     console.error("No file uploaded!");
   }
