@@ -302,8 +302,8 @@
 
 
         send_query.addEventListener("click", () => {
-            three_dot_loader.style.opacity = "100%"
             if (query.value) {
+            three_dot_loader.style.opacity = "100%"
                 console.log(query.value)
                 apend_query(query.value)
                 $.ajax({
