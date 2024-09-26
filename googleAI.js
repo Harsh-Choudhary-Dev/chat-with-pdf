@@ -2,12 +2,12 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 global.require = require;
 import { HNSWLib } from "@langchain/community/vectorstores/hnswlib";
-import { FaissStore } from "@langchain/community/vectorstores/faiss";
+import { Chroma } from "@langchain/community/vectorstores/chroma";
 import { GooglePaLMEmbeddings } from "@langchain/community/embeddings/googlepalm";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { CharacterTextSplitter } from "langchain/text_splitter";
 import { HuggingFaceInferenceEmbeddings } from "@langchain/community/embeddings/hf";
-
+import { FaissStore } from "@langchain/community/vectorstores/faiss";
 
 async function getVectorStores(docs){
   const splitter = new RecursiveCharacterTextSplitter({
@@ -27,12 +27,17 @@ const embeddings = new HuggingFaceInferenceEmbeddings({
 
 // const embeddings = new GooglePaLMEmbeddings({apiKey:  process.env.GOOGLE_PALM_API_KEY})
 // Load the docs into the vector store
-const vectorStore = await HNSWLib.fromDocuments(splittedDocs, embeddings);
+// const vectorStore = await HNSWLib.fromDocuments(splittedDocs, embeddings);
 // console.log(vectorStore)
 
-const vectorStoreRetriever = vectorStore.asRetriever();
+const vectorStore = await FaissStore.fromDocuments(
+  splittedDocs,
+  embeddings
+);
+
+// const vectorStoreRetriever = vectorStore.asRetriever();
 // const result = await vectorStore.similaritySearch("what is node",7);
-return vectorStoreRetriever
+return vectorStore
 }
 
 export default getVectorStores

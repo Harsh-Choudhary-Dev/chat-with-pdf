@@ -53,7 +53,6 @@ app.post("/upload", upload.single("pdfFile"), async (req, res) => {
     }
     
 
-    //  })
   } else {
     console.error("No file uploaded!");
   }
